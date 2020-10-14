@@ -1,0 +1,64 @@
+.Root {
+  padding: 10% 6%;
+  background-color: var(--s-color);
+}
+
+.Footer {
+  display: flex;
+  flex-direction: column;
+}
+
+.BottomItems {
+  margin-top: 25px;
+  font-size: 0.8125rem;
+  color: rgba(255, 255, 255, 0.2);
+  margin-right: 0.5em;
+}
+
+.BottomItems a {
+  font-size: 0.8125rem;
+  color: rgba(255, 255, 255, 0.2);
+  margin-right: 1em;
+}
+
+.copyright {
+  margin-bottom: 15px;
+  line-height: 1.8;
+}
+
+.LegalNav {
+  line-height: 1.8;
+}
+
+@media only screen and (min-width: 900px) {
+  .Root {
+    padding: 60px 6%;
+    display: flex;
+    justify-content: center;
+    padding-bottom: 20px;
+  }
+  .CenterItems {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+  }
+  .BottomItems {
+    display: flex;
+    flex-direction: row;
+    align-self: center;
+    align-items: center;
+    margin-top: 60px;
+  }
+  .copyright {
+    margin-right: 10px;
+    margin-bottom: 0;
+  }
+  .navigationItems {
+    display: flex;
+    flex-direction: row;
+    margin-top: 0px;
+  }
+  .Footer {
+    width: 100%;
+  }
+}

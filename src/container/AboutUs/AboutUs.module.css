@@ -1,0 +1,137 @@
+.banner {
+  margin-top: 65px;
+  position: relative;
+  width: 100vw;
+  height: 50vh;
+}
+
+.img {
+  height: 100%;
+}
+
+.bannerTitle {
+  position: absolute;
+  left: 20px;
+  bottom: 0px;
+  width: 90%;
+  z-index: 2;
+  font-size: 32px;
+  font-family: 'futura-pt', sans-serif;
+  color: white;
+}
+
+.banner::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.6);
+}
+
+.body {
+  padding-left: 4%;
+  padding-right: 4%;
+  color: var(--s-color);
+}
+
+.people {
+  margin-top: 80px;
+}
+
+.technology {
+  margin-top: 80px;
+}
+.trading {
+  margin-top: 80px;
+  margin-bottom: 80px;
+}
+
+.cards {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  text-align: center;
+}
+
+.card_body > p {
+  text-align: left;
+}
+
+.card {
+  display: flex;
+}
+
+.card > div:first-child {
+  display: grid;
+  place-items: center;
+}
+
+.card > div > img {
+  width: 80px;
+}
+
+.approach {
+  scroll-margin-top: 5em;
+}
+
+.card_body {
+  flex: 3;
+  margin-left: 32px;
+}
+
+.card_body > h4 {
+  text-align: left;
+}
+
+@media only screen and (min-width: 900px) {
+  .body {
+    margin: 50px auto 20px auto;
+    max-width: 1200px;
+  }
+  .banner {
+    margin-top: 100px;
+    height: 90vh;
+  }
+  .bannerTitle {
+    left: 100px;
+    bottom: 100px;
+    width: 60%;
+    font-size: 5rem;
+  }
+  .banner::after {
+    content: '';
+    position: absolute;
+    bottom: 0px;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.6);
+  }
+  .history_body {
+    display: flex;
+  }
+  .history_body > p {
+    margin-right: 20px;
+    flex: 1;
+    text-align: justify;
+  }
+  .history_body > img {
+    flex: 2;
+  }
+  .approach {
+    scroll-margin-top: 8em;
+  }
+  .cards {
+    flex-direction: row;
+    gap: 30px;
+  }
+  .card {
+    max-width: 400px;
+  }
+  .trading > img {
+    margin-left: 50%;
+    transform: translateX(-50%);
+  }
+}

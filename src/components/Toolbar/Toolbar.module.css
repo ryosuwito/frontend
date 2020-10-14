@@ -1,0 +1,49 @@
+.Toolbar {
+  margin: 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-direction: row;
+  padding: 12px 6%;
+}
+
+.logo {
+  height: 45px;
+  width: 100px;
+}
+
+@media only screen and (min-width: 900px) {
+  .Toolbar {
+    align-items: flex-start;
+    flex-direction: column;
+    padding: 0px 15%;
+    padding-top: 25px;
+  }
+  .logo {
+    height: 127px;
+    width: 260px;
+    margin-top: -32px;
+    image-rendering: -webkit-optimize-contrast;
+  }
+}
+
+@media only screen and (min-width: 900px) {
+  .Toolbar {
+    flex-direction: row;
+    align-items: center;
+    padding: 20px 12%;
+  }
+}
+
+.DesktopOnly {
+  display: none;
+}
+
+@media only screen and (min-width: 900px) {
+  .DesktopOnly {
+    display: block;
+  }
+  .MobileOnly {
+    display: none;
+  }
+}

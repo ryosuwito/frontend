@@ -1,0 +1,12 @@
+.MenuToggle {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 16px;
+  width: 20px;
+}
+
+.MenuToggle div {
+  height: 20%;
+  background-color: #24a3d8;
+}
