@@ -11,13 +11,28 @@
 
 .bannerTitle {
   position: absolute;
-  left: 20px;
-  bottom: 0px;
-  width: 90%;
+  top: 50%;
+  margin: 0px;
+  transform: translateY(-50%);
+  width: 100%;
   z-index: 2;
-  font-size: 32px;
-  font-family: 'futura-pt', sans-serif;
+  /* font-size: 32px; */
   color: white;
+  text-align: center;
+}
+
+.bannerMainTitle {
+  font-size: 3rem;
+  font-family: serif;
+}
+
+.bannerSubTitle {
+  display: none;
+}
+
+.leftImage {
+  display: inline-flex;
+  align-items: center;
 }
 
 .banner::after {
@@ -42,15 +57,12 @@
 }
 
 .cards {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-around;
   text-align: center;
 }
 
 .card {
-  display: flex;
-  align-items: center;
+  display: inline-flex;
+  margin: 7px 30px 7px 20px;
 }
 
 .card > div:first-child > img {
@@ -63,8 +75,7 @@
 }
 
 .card_body {
-  flex: 2;
-  margin-left: 32px;
+  margin-left: 15px;
 }
 
 .card_body > h4 {
@@ -100,7 +111,7 @@
   color: #919daa;
 }
 
-@media only screen and (min-width: 900px) {
+@media only screen and (min-width: 992px) {
   .body {
     margin: 50px auto 20px auto;
     max-width: 1200px;
@@ -109,11 +120,14 @@
     margin-top: 100px;
     height: 90vh;
   }
-  .bannerTitle {
-    left: 100px;
-    bottom: 100px;
-    width: 60%;
-    font-size: 5rem;
+  .bannerMainTitle {
+    font-size: 3rem;
+    font-family: serif;
+  }
+  .bannerSubTitle {
+    display: block;
+    font-size: 18px;
+    font-weight: 400;
   }
   .banner::after {
     content: '';
@@ -124,13 +138,14 @@
     height: 100%;
     background-color: rgba(0, 0, 0, 0.6);
   }
-  .cards {
-    flex-direction: row;
-    gap: 30px;
-  }
   .card {
-    max-width: 400px;
+    margin: 10px 15px
   }
+  .cards {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+  }
+
   .fun {
     display: flex;
     flex-wrap: wrap;
@@ -150,30 +165,30 @@
     min-width: 100%;
   }
   .fun_card1 {
-    flex: 66%;
+    width: 66%;
   }
   .fun_card2 {
-    flex: 33%;
+    width: 33%;
   }
   .fun_card3 {
-    flex: 33%;
+    width: 33%;
   }
   .fun_card4 {
-    flex: 66%;
+    width: 66%;
   }
   .fun_card5 {
-    flex: 100%;
+    width: 100%;
   }
   .fun_card6 {
-    flex: 66%;
+    width: 66%;
   }
   .fun_card7 {
-    flex: 33%;
+    width: 33%;
   }
   .fun_card8 {
-    flex: 33%;
+    width: 33%;
   }
   .fun_card9 {
-    flex: 66%;
+    width: 66%;
   }
 }

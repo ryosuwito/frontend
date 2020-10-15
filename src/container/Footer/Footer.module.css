@@ -17,13 +17,14 @@
 
 .BottomItems a {
   font-size: 0.8125rem;
-  color: rgba(255, 255, 255, 0.2);
+  color: rgba(255, 255, 255, 1);
   margin-right: 1em;
 }
 
 .copyright {
   margin-bottom: 15px;
   line-height: 1.8;
+  color: #fff;
 }
 
 .LegalNav {

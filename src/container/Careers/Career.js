@@ -1,55 +1,31 @@
 import React, { useEffect, useState } from 'react';
 import classes from './index.module.css';
-import Header from '../Header/Header';
-import Footer from '../Footer/Footer';
-import OpeningText from '../../components/OpeningText';
-import { p_color, jobs, s_color } from '../../constants';
-import Select from 'react-select';
+import { content } from '../../fixtures/careers';
 import uniquid from 'uniqid';
-import AOS from 'aos';
-import 'aos/dist/aos.css';
+import Layout from '../../layouts/layout';
 
-const locations = [
-  { value: 'All', label: 'All' },
-  { value: 'Singapore', label: 'Singapore' },
-  { value: 'Shanghai', label: 'Shanghai' },
-];
+const jobs = content.jobs.map(job => {
+  job.urls = [];
+  job.urls = job.location.map(l => {
+    const paramStr = [
+      'position=' + encodeURIComponent(job.symbol),
+      'typ=' + encodeURIComponent(job.type_symbol),
+      'workplace=' + encodeURIComponent(l.toUpperCase()),
+    ].join('&')
+    return [l, '/dtlweb/careers?' + paramStr];
+  })
 
-const departments = [
-  { value: 'All', label: 'All' },
-  { value: 'Trading', label: 'Trading' },
-  { value: 'Technology', label: 'Technology' },
-  { value: 'Corporate Functions', label: 'Corporate Functions' },
-];
+  return job;
+});
 
-const types = [
-  { value: 'All', label: 'All' },
-  { value: 'Intern', label: 'Intern' },
-  { value: 'Full Time', label: 'Full Time' },
-];
-
-const selectStyles = {
-  control: (styles) => ({ ...styles, minWidth: '200px' }),
-  option: (styles) => {
-    return {
-      ...styles,
-    };
-  },
-};
 
 jobs.map((job) => (job.id = uniquid()));
 
+
 export default function Career() {
   const [availableJobs, setAvailableJobs] = useState(jobs);
-  const [location, setLocation] = useState({ value: 'All', label: 'Select Location...' });
-  const [type, setType] = useState({ value: 'All', label: 'Select Type...' });
+  const [type, setType] = useState(content.categories.types[2]);
   const [currJobId, setCurrJobId] = useState(null);
-  const currJob = currJobId && jobs[jobs.findIndex((job) => job.id === currJobId)];
-
-  const [department, setDepartment] = useState({
-    value: 'All',
-    label: 'Select Department...',
-  });
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -57,17 +33,6 @@ export default function Career() {
 
   const updateJobs = () => {
     let res = jobs;
-
-    // Filter locations
-    if (location.value !== 'All') {
-      res = jobs.filter((job) => job.location === location.value);
-      setAvailableJobs(res);
-    }
-
-    // Filter departments
-    if (department.value !== 'All') {
-      res = res.filter((job) => job.department === department.value);
-    }
 
     // Filter types
     if (type.value !== 'All') {
@@ -80,32 +45,17 @@ export default function Career() {
     setAvailableJobs(res);
   };
 
-  const handleLocationChange = (e) => {
-    setLocation(e);
-  };
-
-  const handleDepartmentChange = (e) => {
-    setDepartment(e);
-  };
-
-  const handleTypeChange = (e) => {
-    setType(e);
-  };
-
   const toggleDetailsView = (id) => {
     if (currJobId !== id) {
       setCurrJobId(id);
-    } else {
-      setCurrJobId(null);
     }
   };
 
   useEffect(() => {
-    AOS.init();
     updateJobs();
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [location, department, type]);
+  }, [type]);
 
   useEffect(() => {
     window.screen.width > 900 && setCurrJobId(availableJobs[0]?.id);
@@ -119,283 +69,169 @@ export default function Career() {
       });
       let el = document.getElementById(`id${currJobId}`);
       if (el) {
-        el.style.background = 'rgb(167, 221, 242, 0.4)';
+        el.style.background = 'rgb(164, 214, 232, 0.6)';
       }
     }
 
     let details_container = document.getElementById('sticky-scroll');
     if (details_container) details_container.scrollTo(0, 0); // Take user to starting when job is changed
-
+    
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [currJobId]);
+    const selectedEls = document.getElementsByClassName(classes.selectedJob);
+    for(let i = 0; i < selectedEls.length; i++) {
+      selectedEls[i].classList.remove(classes.selectedJob);
+    }
+    const jobElement = document.getElementById(`job_${currJobId}_id`);
+    if (jobElement) {
+      jobElement.classList.add(classes.selectedJob)
+    }
+  }, [currJobId, availableJobs]);
 
-  return (
-    <>
-      <div className={classes.root}>
-        <Header />
+  const onClickFilter = (selectedType) => {
+    return evt => {
+      const els = document.getElementsByClassName(classes.filterButton);
+      for(let i = 0; i < els.length;i++) {
+        els[i].classList.remove(classes.filterButtonActive);
+      }
+      evt.currentTarget.classList.add(classes.filterButtonActive);
+      setType(selectedType);
+    }
+  }
 
-        <div className={classes.banner}>
-          <img src='/images/about/2.jpeg' alt='banner' className={classes.img} />
-          <h1 className={classes.bannerTitle}>
-            Where <span style={{ color: p_color }}>experience</span> <span>meets</span>{' '}
-            innovation
-            <p style={{ fontSize: '16px', fontWeight: 400 }}>
-              A results-driven team at the intersection of trading + technology
-            </p>
-          </h1>
-        </div>
+  const typeCount = {};
+  jobs.forEach(job => {
+    if (typeCount.hasOwnProperty(job.type)) {
+      typeCount[job.type]++;
+    } else {
+      typeCount[job.type] = 1;
+    }
+  })
+  const contentTypes = content.categories.types;
 
-        <OpeningText
-          text='We empower a team of exceptional individuals to identify and capture trading and
-          investment opportunities globally.'
-        />
+  const BodyContent = props => {
+    return (
+      <div className={classes.body} style={{marginTop: '100px', marginBottom: '100px'}}>
+      <div className={classes.careers}>
 
-        <div className={classes.body}>
-          <div className={classes.careers}>
-            <h1 className='heading'>Open Positions</h1>
+        {/* <h1 className='heading' style={{textAlign: 'center', marginBottom: '70px'}}>We are hiring</h1> */}
 
-            <div className={classes.careers_body}>
-              <div className={classes.filters}>
-                <div className={classes.location_filter}>
-                  <Select
-                    value={location}
-                    onChange={handleLocationChange}
-                    options={locations}
-                    styles={selectStyles}
-                  />
-                </div>
-
-                <div className={classes.department_filter}>
-                  <Select
-                    value={department}
-                    onChange={handleDepartmentChange}
-                    options={departments}
-                    styles={selectStyles}
-                  />
-                </div>
-
-                <div className={classes.type_filter}>
-                  <Select
-                    value={type}
-                    onChange={handleTypeChange}
-                    options={types}
-                    styles={selectStyles}
-                  />
-                </div>
-              </div>
-
-              {availableJobs.length === 0 ? (
-                <h2 className='heading'>No Jobs for this filter.</h2>
-              ) : (
-                <h5>{availableJobs.length} Jobs found</h5>
-              )}
-              <div className={classes.container}>
-                <div className={classes.listing}>
-                  {availableJobs.map((job) => (
-                    <div className={classes.job_card} id={`id${job.id}`} key={job.id}>
-                      <h2 className={`heading ${classes.m_heading}`}>{job.name}</h2>
-                      <h2
-                        className={`heading ${classes.d_heading}`}
-                        onClick={() => toggleDetailsView(job.id)}
-                      >
-                        {job.name}
-                      </h2>
-
-                      <div className={classes.job_card_body}>
-                        <div className={classes.job_card_body_left}>
-                          <div className={classes.job_location}>Location: {job.location}</div>
-
-                          <div className={classes.job_department}>
-                            Department: {job.department}
-                          </div>
-
-                          <div className={classes.job_type}>Type: {job.type}</div>
-                        </div>
-                        <div className={classes.job_card_body_right}>
-                          <button className='btn'>Apply Now</button>
-                        </div>
-                      </div>
-
-                      <h5
-                        style={{ color: s_color }}
-                        onClick={() => toggleDetailsView(job.id)}
-                        className={classes.see_more}
-                      >
-                        {currJobId === job.id ? 'See Less' : 'See More'}
-                      </h5>
-
-                      <div
-                        className={classes.job_details_container}
-                        style={{ lineHeight: '1.5rem' }}
-                      >
-                        {currJobId === job.id ? (
-                          <div
-                            className={classes.job_details}
-                            id={job.id}
-                            data-aos='fade-down'
-                          >
-                            <h4 className='heading'>Job Description</h4>
-
-                            <div
-                              style={{
-                                textAlign: 'justify',
-                                whiteSpace: 'break-spaces',
-                              }}
-                            >
-                              {job.description}
-                            </div>
-
-                            <h4 className='heading'>Job Responsibilities</h4>
-
-                            <div>
-                              {job.responsibilities.map((resp, i) => (
-                                <div
-                                  key={i}
-                                  style={{
-                                    textAlign: 'justify',
-                                    whiteSpace: 'break-spaces',
-                                  }}
-                                >
-                                  <span className={classes.dot}></span>
-                                  {resp}
-                                </div>
-                              ))}
-                            </div>
-
-                            <h4 className='heading'>Qualifications</h4>
-
-                            <div>
-                              {job.qualifications.map((qual, i) => (
-                                <div
-                                  key={i}
-                                  style={{
-                                    textAlign: 'justify',
-                                    whiteSpace: 'break-spaces',
-                                  }}
-                                >
-                                  <span className={classes.dot}></span>
-                                  {qual}
-                                </div>
-                              ))}
-                            </div>
-
-                            <h4 className='heading'>Pluses</h4>
-
-                            <div>
-                              {job.pluses.map((plus, i) => (
-                                <div
-                                  key={i}
-                                  style={{
-                                    textAlign: 'justify',
-                                    whiteSpace: 'break-spaces',
-                                  }}
-                                >
-                                  <span className={classes.dot}></span>
-                                  {plus}
-                                </div>
-                              ))}
-                            </div>
-                          </div>
-                        ) : null}
-                      </div>
-                    </div>
-                  ))}
-                </div>
-
-                <div className={classes.container_right}>
-                  {!currJob ? null : (
-                    <div
-                      style={{
-                        position: 'sticky',
-                        top: '120px',
-                      }}
-                    >
-                      <div
-                        id='sticky-scroll'
-                        style={{
-                          paddingRight: '20px',
-                          paddingLeft: '13px',
-                        }}
-                      >
-                        <h2>{currJob.name}</h2>
-                        <h3>Job Description</h3>
-
-                        <p
-                          className='para'
-                          style={{
-                            lineHeight: '1.4',
-                            fontSize: '1rem',
-                          }}
-                        >
-                          {currJob.description}
-                        </p>
-
-                        <h3>Job Responsibilities</h3>
-
-                        <div>
-                          {currJob.responsibilities.map((resp, i) => (
-                            <p
-                              className='para'
-                              style={{
-                                lineHeight: '1.4',
-                                fontSize: '1rem',
-                              }}
-                              key={i}
-                            >
-                              <span className={classes.dot}></span>
-                              {resp}
-                            </p>
-                          ))}
-                        </div>
-
-                        <h3>Qualifications</h3>
-
-                        <div>
-                          {currJob.qualifications.map((qual, i) => (
-                            <p
-                              className='para'
-                              key={i}
-                              style={{
-                                lineHeight: '1.4',
-                                fontSize: '1rem',
-                              }}
-                            >
-                              <span className={classes.dot}></span>
-                              {qual}
-                            </p>
-                          ))}
-                        </div>
-
-                        <h3>Pluses</h3>
-
-                        <div style={{ marginBottom: '20px' }}>
-                          {currJob.pluses.map((plus, i) => (
-                            <p
-                              className='para'
-                              key={i}
-                              style={{
-                                lineHeight: '1.4',
-                                fontSize: '1rem',
-                              }}
-                            >
-                              <span className={classes.dot}></span>
-                              {plus}
-                            </p>
-                          ))}
-                        </div>
-
-                        <button className='btn'>Apply Now</button>
-                      </div>
-                    </div>
-                  )}
-                </div>
-              </div>
-            </div>
+        <div className={ classes.filterButtonGroup }>
+          <div className={ [classes.filterButton, classes.filterButtonActive].join(' ') }
+            onClick={ onClickFilter(contentTypes[2]) }>{ contentTypes[2].label }{' '}
+              <span className={`${classes.badge} ${classes.badgeFilterButton}`}>{typeCount[contentTypes[2].value]}</span>
+          </div>
+          <div className={ classes.filterButton }
+            onClick={ onClickFilter(contentTypes[1])}>{ contentTypes[1].label }{' '}
+              <span className={`${classes.badge} ${classes.badgeFilterButton}`}>{typeCount[contentTypes[1].value]}</span>
           </div>
         </div>
 
-        <Footer />
+        <div className={classes.careers_body}>
+
+          <div className={classes.container}>
+          {/* <div className="col col-3"> */}
+            <div className={ classes.listing }>
+              {availableJobs.map((job) => (
+                <div onClick={() => toggleDetailsView(job.id)} key={`jobTitleKey${job.id}`}>
+                  <div className={classes.job_card} id={`id${job.id}`} key={job.id}>
+                    <h3 className={`heading ${classes.d_heading}`}>
+                      {job.name}
+                    </h3>
+
+                    <div className={classes.job_card_body}>
+                      <div className={classes.job_location}>
+                      <div style={{marginTop: '5px'}}>
+                      Location: { job.location.join(', ') }</div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              ))}
+
+              </div>
+            <div className={classes.container_right}>
+
+              
+
+              {jobs.map(job => {
+                return (
+                <div id={`job_${job.id}_id`}key={`job_${job.id}`} style={{ top: '120px', display: 'none' }}>
+                  <div id='sticky-scroll'
+                    style={{ paddingRight: '20px', paddingLeft: '13px', }} >
+
+                    <h2>{job.name}</h2>
+                    <br></br>
+
+                    <h3>Locations</h3>
+                    <table>
+                      <tbody>
+                        { job.urls.map(url => (
+                        <tr key={`apply_link_${url[0]}`} style={{ fontSize: '1rem'}}>
+                          <td style={{ margin: '10px', padding: '10px'}}>{ url[0] }</td>
+                          <td style={{ margin: '10px', padding: '10px'}}>
+                            <a className='btn btn-primary' href={ url[1] } target='_blank' rel="noopener noreferrer">Apply Now</a>
+                          </td>
+                        </tr>))}
+                      </tbody>
+                    </table>
+                    <br></br>
+
+                    { job.description.length > 0 && (<>
+                    <h3>Job Description</h3>
+                    { job.description.map ((desc, i) =>(
+                    <p className='para' style={{ lineHeight: '1.4', fontSize: '1rem', }} key={ i } >
+                      {desc}
+                    </p>))}
+                    <br></br>
+                    </>)}
+
+                    { job.responsibilities.length > 0 && (<>
+                    <h3>Job Responsibilities</h3>
+                    <div>
+                      {job.responsibilities.map((resp, i) => (
+                        <p className='para' style={{ lineHeight: '1.4', fontSize: '1rem', }} key={i} >
+                          <span className={classes.dot}></span>
+                          {resp}
+                        </p>
+                      ))}
+                    </div><br></br></>) }
+
+                    { job.qualifications.length > 0 && (<>
+                    <h3>Qualifications</h3>
+                    <div>
+                      {job.qualifications.map((qual, i) => (
+                        <p className='para' key={i} style={{ lineHeight: '1.4', fontSize: '1rem', }} >
+                          <span className={classes.dot}></span>
+                          {qual}
+                        </p>
+                      ))}
+                    </div><br></br></>) }
+
+                    { job.pluses.length > 0 && (<>
+                    <h3>Pluses</h3>
+                    <div style={{ marginBottom: '20px' }}>
+                      {job.pluses.map((plus, i) => (
+                        <p className='para' key={i} style={{ lineHeight: '1.4', fontSize: '1rem', }} >
+                          <span className={classes.dot}></span>
+                          {plus}
+                        </p>
+                      ))}
+                    </div><br></br></>)}
+                    
+                  </div>
+                </div>
+              )})}
+            </div>
+          </div>
+        </div>
       </div>
-    </>
-  );
+    </div>)
+  }
+
+  return <Layout bodyContent={ <BodyContent/> } 
+    bannerImage='/images/career/0.jpg' bannerImageAlt='career-banner-image'
+    bannerSmallImage='/images/career/0.jpg'
+    bannerMainTitle={ <p>Work with us</p> }
+    bannerSubTitle={ <p>We offer opportunities for our people to realise their full potential.</p> }
+  />
 }
