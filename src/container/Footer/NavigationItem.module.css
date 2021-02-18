@@ -19,7 +19,7 @@
   color: var(--p-color);
 }
 
-@media only screen and (min-width: 900px) {
+@media only screen and (min-width: 992px) {
   .navigationItem {
     margin: 0 10px;
   }

@@ -3,21 +3,37 @@
   position: relative;
   width: 100vw;
   height: 50vh;
+  /* width: fit-content; */
 }
 
 .img {
+  width: auto;
   height: 100%;
 }
 
 .bannerTitle {
   position: absolute;
-  left: 20px;
-  bottom: 0px;
-  width: 90%;
+  top: 50%;
+  margin: 0px;
+  transform: translateY(-50%);
+  width: 100%;
   z-index: 2;
-  font-size: 32px;
-  font-family: 'futura-pt', sans-serif;
+  /* font-size: 32px; */
   color: white;
+  text-align: center;
+}
+
+.bannerMainTitle {
+  font-size: 3rem;
+  font-family: serif;
+}
+
+.bannerSubTitle {
+  display: none;
+}
+
+.container_right {
+  border-top: 1px solid gainsboro;
 }
 
 .banner::after {
@@ -43,17 +59,9 @@
   width: 6px;
   background: #808080;
   border-radius: 50%;
-  margin-left: -6px;
   margin-bottom: 2px;
-  transform: translateX(-5px);
-}
-
-.container_right {
-  display: none;
-}
-
-.filters {
-  margin-bottom: 50px;
+  transform: translateX(2px);
+  margin-right: 10px;
 }
 
 .filters > div {
@@ -64,15 +72,16 @@
   margin-bottom: 60px;
 }
 
-.listing {
-  flex: 8;
-  margin-left: 10px;
-}
+/* .listing { */
+  /* flex: 8; */
+  /* margin-left: 10px; */
+/* } */
 
 .job_card {
   color: gray;
   font-size: 0.9rem;
-  margin-bottom: 50px;
+  padding: 10px 20px 0 20px;
+  transition: all .3s ease-in;
 }
 
 .m_heading {
@@ -80,7 +89,6 @@
 }
 
 .d_heading {
-  display: none;
   cursor: pointer;
   text-decoration: underline;
 }
@@ -116,17 +124,8 @@
 
 .job_card_body {
   display: flex;
-  align-items: center;
+  align-items: flex-end;
   justify-content: space-between;
-}
-
-.job_card_body_left {
-  flex: 1;
-}
-
-.job_card_body_right {
-  flex: 1;
-  text-align: center;
 }
 
 .tick {
@@ -135,7 +134,111 @@
   margin-right: 5px;
 }
 
-@media only screen and (min-width: 900px) {
+.activeTitle {
+  background: rgb(164, 214, 232, 0.6);
+}
+
+.filterButton {
+  margin-right: 10px;
+  margin-top: 10px;
+  padding: 10px 20px;
+  color: white;
+  border-radius: 25px;
+  /* background-color: #66a0c2; */
+  /* box-shadow: 0px 0.5px 0px 0px rgba(0,0,0,0.2), 0px 2px 2px 0px rgba(0,0,0,0.14), 0px 1px 5px 0px rgba(0,0,0,0.12); */
+  background-color: #24a3d8;
+  box-shadow: 0px 3px 1px -2px rgba(0,0,0,0.2), 0px 2px 2px 0px rgba(0,0,0,0.14), 0px 1px 5px 0px rgba(0,0,0,0.12);
+  text-align: center;
+}
+
+.filterButtonGroup {
+  display: flex;
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+.filterButton:hover {
+  cursor: pointer;
+}
+
+.filterButtonActive {
+  background-color: #66a0c2;
+  box-shadow: 0px 0.5px 0px 0px rgba(0,0,0,0.2), 0px 2px 2px 0px rgba(0,0,0,0.14), 0px 1px 5px 0px rgba(0,0,0,0.12);
+  /* background-color: #24a3d8; */
+  /* box-shadow: 0px 3px 1px -2px rgba(0,0,0,0.2), 0px 2px 2px 0px rgba(0,0,0,0.14), 0px 1px 5px 0px rgba(0,0,0,0.12); */
+}
+
+.badgeFilterButton {
+  color: white;
+  background-color: #de702c;
+}
+
+.badge {  
+  display: inline-block;
+  padding: 0.25em 0.6em;
+  font-size: 75%;
+  font-weight: 700;
+  line-height: 1;
+  text-align: center;
+  white-space: nowrap;
+  vertical-align: baseline;
+  border-radius: 10rem;
+  transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
+
+.selectedJob {
+  display: block !important;
+  -webkit-animation: fadeinout 0.5s linear forwards;
+  animation: fadeinout 0.5s linear forwards;
+}
+
+@-webkit-keyframes fadeinout {
+  100% { opacity: 1; }
+  0% { opacity: 0.2; }
+}
+
+@keyframes fadeinout {
+  100% { opacity: 1; }
+  0% { opacity: 0.2; }
+}
+
+@media only screen and (min-width: 768px) {
+  .container {
+    display: flex;
+  }
+
+  .listing {
+    flex: 1 1 35%;
+    height: 85vh;
+    display: table;
+    top: 120px;
+  }
+
+  .container_right {
+    display: block;
+    flex: 1 1 65%;
+    white-space: break-spaces;
+    margin-left: 20px;
+    padding-left: 20px;
+    border-left: 1px solid gainsboro;
+    border-top: none;
+    /* scrollbar-width: none; */
+  }
+  .container_right p {
+    text-align: justify;
+  }
+}
+
+@media only screen and (min-width: 992px) {
+  .filterButtonGroup {
+    /* display: flex; */
+  }
+
+  .img {
+    width: 100%;
+    height: 100%;
+  }
+
   .body {
     margin: 50px auto 20px auto;
     max-width: 1400px;
@@ -144,12 +247,15 @@
     margin-top: 100px;
     height: 90vh;
   }
-  .bannerTitle {
-    left: 100px;
-    bottom: 100px;
-    width: 60%;
-    font-size: 5rem;
+  .bannerMainTitle {
+    font-family: serif;
   }
+  .bannerSubTitle {
+    display: block;
+    font-size: 18px;
+    font-weight: 400;
+  }
+
   .banner::after {
     content: '';
     position: absolute;
@@ -165,40 +271,17 @@
   .filters > div {
     margin-right: 10px;
   }
-  .container {
-    display: flex;
-  }
+
   .d_heading {
     display: block;
+    font-size: 20px !important;
+    margin: 10px 0;
   }
   .m_heading {
     display: none;
   }
-  .listing {
-    flex: 3;
-    height: 85vh;
-    overflow-y: scroll;
-    position: sticky;
-    top: 120px;
-    /* scrollbar-width: none; */
-  }
-  .see_more {
-    display: none;
-  }
-  .container_right {
-    display: block;
-    flex: 7;
-    text-align: justify;
-    white-space: break-spaces;
-    margin-left: 20px;
-    padding-left: 20px;
-    /* border-left: 1px solid gainsboro; */
-    /* scrollbar-width: none; */
-  }
-  .job_card {
-    margin-bottom: 0;
-    padding: 6px 6px 6px 6px;
-  }
+
+
   .job_card > h3 {
     font-size: 24px;
   }

@@ -11,13 +11,23 @@
 
 .bannerTitle {
   position: absolute;
-  left: 20px;
-  bottom: 0px;
-  width: 90%;
+  top: 50%;
+  margin: 0px;
+  transform: translateY(-50%);
+  width: 100%;
   z-index: 2;
-  font-size: 32px;
-  font-family: 'futura-pt', sans-serif;
+  /* font-size: 32px; */
   color: white;
+  text-align: center;
+}
+
+.bannerMainTitle {
+  font-size: 3rem;
+  font-family: serif;
+}
+
+.bannerSubTitle {
+  display: none;
 }
 
 .banner::after {
@@ -85,7 +95,8 @@
   text-align: left;
 }
 
-@media only screen and (min-width: 900px) {
+
+@media only screen and (min-width: 992px) {
   .body {
     margin: 50px auto 20px auto;
     max-width: 1200px;
@@ -94,11 +105,9 @@
     margin-top: 100px;
     height: 90vh;
   }
-  .bannerTitle {
-    left: 100px;
-    bottom: 100px;
-    width: 60%;
-    font-size: 5rem;
+  .bannerSubTitle {
+    display: block;
+    font-size: 18px;
   }
   .banner::after {
     content: '';

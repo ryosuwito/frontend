@@ -16,11 +16,8 @@
     margin-right: 10px;
   }
 } */
-@media only screen and (min-width: 900px) {
-  .NavigationItem {
-    margin: 0;
-    margin-right: 10px;
-  }
+.NavigationItem a:hover {
+  color: white;
 }
 
 .NavigationItem a {
@@ -36,11 +33,20 @@
   transition-duration: 0.25s;
 }
 
-.NavigationItem a:hover {
-  color: #233b56;
-}
 
-.NavigationItem a:active,
+
 .NavigationItem a.active {
   color: #233b56;
 }
+
+@media only screen and (min-width: 992px) {
+  .NavigationItem {
+    margin: 0;
+    margin-right: 10px;
+  }
+
+  .NavigationItem a:hover {
+    color: #233b56;
+  }
+}
+
