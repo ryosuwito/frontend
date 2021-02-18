@@ -9,10 +9,13 @@ import Contact from './container/Contact/Contact';
 import { TermsOfUse } from './container/TernsOfUse/TermsOfUse';
 import routines from './routines';
 
+import './assets/font-awesome/css/font-awesome.min.css';
+
+
 function App() {
   return (
     <div className='App'>
-      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.5.0/css/flag-icon.min.css" integrity="sha512-Cv93isQdFwaKBV+Z4X8kaVBYWHST58Xb/jVOcV9aRsGSArZsgAnFIhMpDoMDcFNoUtday1hdjn0nGp3+KZyyFw==" crossorigin="anonymous" />
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.5.0/css/flag-icon.min.css" integrity="sha512-Cv93isQdFwaKBV+Z4X8kaVBYWHST58Xb/jVOcV9aRsGSArZsgAnFIhMpDoMDcFNoUtday1hdjn0nGp3+KZyyFw==" crossOrigin="anonymous" />
       <Switch>
         <Route path={ routines.home.url } exact component={Home} />
         <Route path={ routines.about.url } component={AboutUs} />

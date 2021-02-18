@@ -96,7 +96,7 @@
 }
 
 
-@media only screen and (min-width: 900px) {
+@media only screen and (min-width: 992px) {
   .body {
     margin: 50px auto 20px auto;
     max-width: 1200px;

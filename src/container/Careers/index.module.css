@@ -134,16 +134,20 @@
   margin-right: 5px;
 }
 
+.activeTitle {
+  background: rgb(164, 214, 232, 0.6);
+}
+
 .filterButton {
   margin-right: 10px;
   margin-top: 10px;
   padding: 10px 20px;
   color: white;
   border-radius: 25px;
-  background-color: #66a0c2;
-  box-shadow: 0px 0.5px 0px 0px rgba(0,0,0,0.2), 0px 2px 2px 0px rgba(0,0,0,0.14), 0px 1px 5px 0px rgba(0,0,0,0.12);
-  /* background-color: #24a3d8; */
-  /* box-shadow: 0px 3px 1px -2px rgba(0,0,0,0.2), 0px 2px 2px 0px rgba(0,0,0,0.14), 0px 1px 5px 0px rgba(0,0,0,0.12); */
+  /* background-color: #66a0c2; */
+  /* box-shadow: 0px 0.5px 0px 0px rgba(0,0,0,0.2), 0px 2px 2px 0px rgba(0,0,0,0.14), 0px 1px 5px 0px rgba(0,0,0,0.12); */
+  background-color: #24a3d8;
+  box-shadow: 0px 3px 1px -2px rgba(0,0,0,0.2), 0px 2px 2px 0px rgba(0,0,0,0.14), 0px 1px 5px 0px rgba(0,0,0,0.12);
   text-align: center;
 }
 
@@ -158,10 +162,10 @@
 }
 
 .filterButtonActive {
-  /* background-color: #66a0c2; */
-  /* box-shadow: 0px 0.5px 0px 0px rgba(0,0,0,0.2), 0px 2px 2px 0px rgba(0,0,0,0.14), 0px 1px 5px 0px rgba(0,0,0,0.12); */
-  background-color: #24a3d8;
-  box-shadow: 0px 3px 1px -2px rgba(0,0,0,0.2), 0px 2px 2px 0px rgba(0,0,0,0.14), 0px 1px 5px 0px rgba(0,0,0,0.12);
+  background-color: #66a0c2;
+  box-shadow: 0px 0.5px 0px 0px rgba(0,0,0,0.2), 0px 2px 2px 0px rgba(0,0,0,0.14), 0px 1px 5px 0px rgba(0,0,0,0.12);
+  /* background-color: #24a3d8; */
+  /* box-shadow: 0px 3px 1px -2px rgba(0,0,0,0.2), 0px 2px 2px 0px rgba(0,0,0,0.14), 0px 1px 5px 0px rgba(0,0,0,0.12); */
 }
 
 .badgeFilterButton {

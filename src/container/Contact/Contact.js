@@ -15,6 +15,7 @@ export default function Contact() {
               <div className={ classes.imageFilter }>
                 <div className={ classes.addressDetail }>
                   <div>
+                    <i className="fa fa-map-marker" aria-hidden="true"></i>{' '}
                     { office.address.map( (addressDetail, _idx) => <span key={`office-${idx}-address-${_idx}`}><span>{ addressDetail }</span><br/></span>)}
                   </div>
                   <div>

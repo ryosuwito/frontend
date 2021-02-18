@@ -5,6 +5,7 @@ import uniquid from 'uniqid';
 import Layout from '../../layouts/layout';
 
 const jobs = content.jobs.map(job => {
+  job.id = uniquid()
   job.urls = [];
   job.urls = job.location.map(l => {
     const paramStr = [
@@ -18,82 +19,29 @@ const jobs = content.jobs.map(job => {
   return job;
 });
 
-
-jobs.map((job) => (job.id = uniquid()));
-
-
 export default function Career() {
   const [availableJobs, setAvailableJobs] = useState(jobs);
-  const [type, setType] = useState(content.categories.types[2]);
+  const [type, setType] = useState(content.categories.types[0]);
   const [currJobId, setCurrJobId] = useState(null);
 
-  useEffect(() => {
-    window.scrollTo(0, 0);
-  }, []);
-
-  const updateJobs = () => {
-    let res = jobs;
-
-    // Filter types
-    if (type.value !== 'All') {
-      res = res.filter((job) => job.type === type.value);
-    }
-    if (res.length === 0) {
-      setCurrJobId(null);
-    }
-
-    setAvailableJobs(res);
-  };
-
-  const toggleDetailsView = (id) => {
+  const onSelectJob = (id) => {
     if (currJobId !== id) {
       setCurrJobId(id);
     }
   };
 
   useEffect(() => {
-    updateJobs();
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    let res = jobs;
+    res = res.filter((job) => job.type === type.value);
+    setAvailableJobs(res);
   }, [type]);
 
   useEffect(() => {
-    window.screen.width > 900 && setCurrJobId(availableJobs[0]?.id);
+    setCurrJobId(availableJobs[0]?.id);
   }, [availableJobs]);
 
-  useEffect(() => {
-    if (window.screen.width > 900) {
-      availableJobs.forEach((job) => {
-        let el = document.getElementById(`id${job.id}`);
-        el.style.background = 'white';
-      });
-      let el = document.getElementById(`id${currJobId}`);
-      if (el) {
-        el.style.background = 'rgb(164, 214, 232, 0.6)';
-      }
-    }
-
-    let details_container = document.getElementById('sticky-scroll');
-    if (details_container) details_container.scrollTo(0, 0); // Take user to starting when job is changed
-    
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    const selectedEls = document.getElementsByClassName(classes.selectedJob);
-    for(let i = 0; i < selectedEls.length; i++) {
-      selectedEls[i].classList.remove(classes.selectedJob);
-    }
-    const jobElement = document.getElementById(`job_${currJobId}_id`);
-    if (jobElement) {
-      jobElement.classList.add(classes.selectedJob)
-    }
-  }, [currJobId, availableJobs]);
-
   const onClickFilter = (selectedType) => {
-    return evt => {
-      const els = document.getElementsByClassName(classes.filterButton);
-      for(let i = 0; i < els.length;i++) {
-        els[i].classList.remove(classes.filterButtonActive);
-      }
-      evt.currentTarget.classList.add(classes.filterButtonActive);
+    return () => {
       setType(selectedType);
     }
   }
@@ -116,14 +64,12 @@ export default function Career() {
         {/* <h1 className='heading' style={{textAlign: 'center', marginBottom: '70px'}}>We are hiring</h1> */}
 
         <div className={ classes.filterButtonGroup }>
-          <div className={ [classes.filterButton, classes.filterButtonActive].join(' ') }
-            onClick={ onClickFilter(contentTypes[2]) }>{ contentTypes[2].label }{' '}
-              <span className={`${classes.badge} ${classes.badgeFilterButton}`}>{typeCount[contentTypes[2].value]}</span>
-          </div>
-          <div className={ classes.filterButton }
-            onClick={ onClickFilter(contentTypes[1])}>{ contentTypes[1].label }{' '}
-              <span className={`${classes.badge} ${classes.badgeFilterButton}`}>{typeCount[contentTypes[1].value]}</span>
-          </div>
+          { contentTypes.map( typ => (
+            <div key={ `key-${typ.value}` } className={ `${classes.filterButton} ${typ.value === type.value? classes.filterButtonActive: null}` }
+              onClick={ onClickFilter(typ) }>{ typ.label }{' '}
+                <span className={`${classes.badge} ${classes.badgeFilterButton}`}>{ typeCount[typ.value] }</span>
+            </div>
+          ))}
         </div>
 
         <div className={classes.careers_body}>
@@ -132,7 +78,8 @@ export default function Career() {
           {/* <div className="col col-3"> */}
             <div className={ classes.listing }>
               {availableJobs.map((job) => (
-                <div onClick={() => toggleDetailsView(job.id)} key={`jobTitleKey${job.id}`}>
+                <div onClick={() => onSelectJob(job.id)} key={`jobTitleKey${job.id}`}
+                  className={ currJobId === job.id? classes.activeTitle: null}>
                   <div className={classes.job_card} id={`id${job.id}`} key={job.id}>
                     <h3 className={`heading ${classes.d_heading}`}>
                       {job.name}
@@ -151,13 +98,11 @@ export default function Career() {
               </div>
             <div className={classes.container_right}>
 
-              
-
               {jobs.map(job => {
                 return (
-                <div id={`job_${job.id}_id`}key={`job_${job.id}`} style={{ top: '120px', display: 'none' }}>
-                  <div id='sticky-scroll'
-                    style={{ paddingRight: '20px', paddingLeft: '13px', }} >
+                <div id={`job_${job.id}_id`} key={`job_${job.id}`} className={ currJobId === job.id? classes.selectedJob: null }
+                  style={{ top: '120px', display: currJobId === job.id? 'block': 'none' }} >
+                  <div style={{ paddingRight: '20px', paddingLeft: '13px', }}>
 
                     <h2>{job.name}</h2>
                     <br></br>

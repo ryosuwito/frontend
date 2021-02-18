@@ -12,7 +12,11 @@
   width: 100px;
 }
 
-@media only screen and (min-width: 900px) {
+.DesktopOnly {
+  display: none;
+}
+
+@media only screen and (min-width: 992px) {
   .Toolbar {
     align-items: flex-start;
     flex-direction: column;
@@ -25,25 +29,17 @@
     margin-top: -32px;
     image-rendering: -webkit-optimize-contrast;
   }
-}
-
-@media only screen and (min-width: 900px) {
   .Toolbar {
     flex-direction: row;
     align-items: center;
     padding: 20px 12% 0 12%;
   }
-}
-
-.DesktopOnly {
-  display: none;
-}
-
-@media only screen and (min-width: 900px) {
   .DesktopOnly {
     display: block;
   }
-  .MobileOnly {
+ .MobileOnly {
     display: none;
-  }
+  } 
 }
+
+

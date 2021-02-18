@@ -22,6 +22,8 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 
-*.mp4
 static
 src/fixtures/*
+src/assets/font-awesome
+public/videos
+public/images

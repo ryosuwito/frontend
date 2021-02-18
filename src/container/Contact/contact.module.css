@@ -13,12 +13,11 @@
 
 .card {
   position: relative;
-  width: 70%;
+  width: 80%;
   margin-bottom: 20px;
 }
 
 .card > img {
-  height: 270px;
   vertical-align: bottom;
   border-radius: 10px;
 }
