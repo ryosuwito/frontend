@@ -8,7 +8,7 @@ const Toolbar = (props) => {
   return (
     <div className={classes.Toolbar}>
       <Link to='/'>
-        <img src='/images/logo.jpg' alt='logo' className={classes.logo} />
+        <img src='/images/logo.png' alt='logo' className={classes.logo} />
       </Link>
       <div className={classes.DesktopOnly}>
         <NavigationItems />

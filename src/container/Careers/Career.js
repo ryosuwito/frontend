@@ -63,39 +63,37 @@ export default function Career() {
 
         {/* <h1 className='heading' style={{textAlign: 'center', marginBottom: '70px'}}>We are hiring</h1> */}
 
-        <div className={ classes.filterButtonGroup }>
-          { contentTypes.map( typ => (
-            <div key={ `key-${typ.value}` } className={ `${classes.filterButton} ${typ.value === type.value? classes.filterButtonActive: null}` }
-              onClick={ onClickFilter(typ) }>{ typ.label }{' '}
-                <span className={`${classes.badge} ${classes.badgeFilterButton}`}>{ typeCount[typ.value] }</span>
-            </div>
-          ))}
-        </div>
-
         <div className={classes.careers_body}>
+          <div className={ classes.filterButtonGroup }>
+            { contentTypes.map( typ => (
+              <div key={ `key-${typ.value}` } className={ `${classes.filterButton} ${typ.value === type.value? classes.filterButtonActive: null}` }
+                onClick={ onClickFilter(typ) }>{ typ.label }{' '}
+                  <span className={`${classes.badge} ${classes.badgeFilterButton}`}>{ typeCount[typ.value] }</span>
+              </div>
+            ))}
+          </div>
 
           <div className={classes.container}>
-          {/* <div className="col col-3"> */}
+
             <div className={ classes.listing }>
               {availableJobs.map((job) => (
                 <div onClick={() => onSelectJob(job.id)} key={`jobTitleKey${job.id}`}
                   className={ currJobId === job.id? classes.activeTitle: null}>
                   <div className={classes.job_card} id={`id${job.id}`} key={job.id}>
-                    <h3 className={`heading ${classes.d_heading}`}>
+                    <h3 className={`heading ${classes.sidebar_item_title}`}>
                       {job.name}
                     </h3>
 
-                    <div className={classes.job_card_body}>
-                      <div className={classes.job_location}>
-                      <div style={{marginTop: '5px'}}>
-                      Location: { job.location.join(', ') }</div>
-                      </div>
+                    <div>
+                      <p>
+                        { job.location.join(', ') }
+                      </p>
                     </div>
                   </div>
                 </div>
               ))}
 
-              </div>
+            </div>
             <div className={classes.container_right}>
 
               {jobs.map(job => {
