@@ -14,6 +14,16 @@ export default {
   career: {
     url: '/careers',
     label: 'careers',
+    api: {
+      careerData: {
+        url: '/dtlweb/api/career_data',
+        label: 'career page api',
+      }
+    },
+    onlineApplication: {
+      url: "/dtlweb/careers",
+      label: "Online Application",
+    }
   },
   contact: {
     url: '/contact',
