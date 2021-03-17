@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import classes from './index.module.css';
-import uniquid from 'uniqid';
 import Layout from '../../layouts/layout';
 
 import routines from '../../routines';
+import * as dummy_api from '../../fixtures/career_dummy';
+
 
 function useFetchOpenJob() {
   const [fetching, setFetching] = useState(false);
@@ -36,7 +37,6 @@ function useFetchOpenJob() {
 
 export default function Career() {
   const [jobs, setJobs] = useState([])
-  const [positions, setPositions] = useState({});
   const [types, setTypes] = useState({});
   const [workplaces, setWorkplaces] = useState({});
   // selectedType is a job filter that filter jobs by type
@@ -44,11 +44,23 @@ export default function Career() {
   const [selectedType, setSelectedType] = useState(null);
   // selectedJobID
   const [currJobId, setCurrJobId] = useState(null);
-  const [fetching, res, err] = useFetchOpenJob();
+  let [fetching, res, err] = useFetchOpenJob();
   const [typeCount, setTypeCount] = useState({});
+  const [highlightStyle, setHighlightStyle] = useState({});
+
+  useEffect(() => {
+    const onResize = () => {
+      setFilterHighlight(selectedType);
+    }
+    window.addEventListener('resize', onResize);
+    return () => window.removeEventListener('resize', onResize);
+  }, [])
 
   useEffect(() => {
     if (fetching === false && (res !== null || err !== null)) {
+      if (err !== null) {
+        res = dummy_api.default;
+      }
       if (res !== null) {
         const data = (res.open_jobs || []).map(job => {
           job.jd = JSON.parse(job.description);
@@ -64,7 +76,6 @@ export default function Career() {
           return job;
         });
         setJobs(data);
-        setPositions(res.positions);
         setWorkplaces(res.workplaces);
         let metaData = res.meta_data;
         // type_order meta data
@@ -98,6 +109,7 @@ export default function Career() {
   useEffect(() => {
     let _selectedJobs = jobs.filter((job) => job.typ === selectedType);
     setSelectedJobs(_selectedJobs);
+    setFilterHighlight(selectedType);
   }, [selectedType]);
 
   useEffect(() => {
@@ -122,6 +134,19 @@ export default function Career() {
     }
   };
 
+  const setFilterHighlight = (selectedType) => {
+    if (selectedType !== null) {
+      const elId = `filter-${selectedType}`;
+      const el = document.getElementById(elId);
+      const clientRect = el.getBoundingClientRect();
+      const parentClientRect = el.parentElement.getBoundingClientRect();
+      setHighlightStyle({
+        width: `${clientRect.width}px`,
+        left: `${clientRect.left - parentClientRect.left}px`
+      });
+    }
+  }
+
   const onClickFilter = (selectedType) => {
     return () => {
       setSelectedType(selectedType);
@@ -136,11 +161,12 @@ export default function Career() {
         <div className={classes.careers_body}>
           <div className={ classes.filterButtonGroup }>
             { Object.entries(types).map(([name, label]) => (
-              <div key={ `key-${name}` } className={ `${classes.filterButton} ${name === selectedType? classes.filterButtonActive: null}` }
+              <div key={ `key-${name}` } id={ `filter-${name}` } className={ `${classes.filterButton} ${name === selectedType? classes.filterButtonActive: null}` }
                 onClick={ onClickFilter(name) }>{ label }{' '}
                   <span className={`${classes.badge} ${classes.badgeFilterButton}`}>{ typeCount[name] }</span>
               </div>
             ))}
+            <span className={ classes.filterHighlight } style={ highlightStyle } key='filterHighlight' id='filterHightlight'/>
           </div>
 
           <div className={classes.container}>
@@ -198,7 +224,7 @@ export default function Career() {
                         </p>)
                       } else if (typeof(desc) === 'object' && desc.length > 0) {
                         return (
-                        <div>
+                        <div key={ `desc-key-${i}` }>
                           {desc.map((resp, i) => (
                             <p className='para' style={{ lineHeight: '1.4', fontSize: '1rem', }} key={i} >
                               <span className={classes.dot}></span>
@@ -220,7 +246,7 @@ export default function Career() {
                           </p>)
                         } else if (typeof(qual) === 'object' && qual.length > 0) {
                           return (
-                          <div>
+                          <div key={ `qual-key-${i}`} >
                             {qual.map((resp, i) => (
                               <p className='para' style={{ lineHeight: '1.4', fontSize: '1rem', }} key={i} >
                                 <span className={classes.dot}></span>
@@ -242,7 +268,7 @@ export default function Career() {
                           </p>)
                         } else if (typeof(plus) === 'object' && plus.length > 0) {
                           return (
-                          <div>
+                          <div key={ `plus-key-${i}` }>
                             {plus.map((resp, i) => (
                               <p className='para' style={{ lineHeight: '1.4', fontSize: '1rem', }} key={i} >
                                 <span className={classes.dot}></span>
