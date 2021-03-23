@@ -56,7 +56,7 @@ class Home extends Component {
   render() {
     return <Layout bodyContent={ <BodyContent/> }
       bannerVideo='/videos/home.mp4' bannerVideoAlt='home-video'
-      bannerSmallImage='/images/about/0.jpg' bannerImageAlt='home-banner-image'
+      bannerSmallImage='/images/home/m_0.jpg' bannerImageAlt='home-banner-image'
       bannerMainTitle={ <p>Where <i>technology</i> and <i>finance</i> intersect</p> }
       bannerSubTitle={ <p>A world-class, forward-looking institution, in the vanguard of innovation</p> }
     />
